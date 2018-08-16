@@ -1,17 +1,17 @@
 var searchYouTube = (options, callback) => {
   let maxResults, part, q, type, key;
   [maxResults, part, q, type, key] = [options.max, 'snippet', options.query, 'video', options.key];
-  let newOptions = { maxResults: maxResults, part: part, q: q, type: type, key: key };
+  let newOptions = { maxResults: maxResults, part: part, q: q, type: type, key: key, videoEmbeddable: true };
   $.ajax({
-    method: "GET",
-    url: "https://www.googleapis.com/youtube/v3/search?",
+    method: 'GET',
+    url: 'https://www.googleapis.com/youtube/v3/search?',
     data: newOptions
   })
     .done(function (videos) {
       callback(videos.items);
     })
     .fail(function (videos) {
-      console.log("error", videos);
+      console.log('error', videos);
     });
 };
 

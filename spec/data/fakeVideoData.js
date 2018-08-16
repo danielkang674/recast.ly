@@ -12,6 +12,13 @@ window.fakeVideoData = [{
         url: 'http://www.fndvisions.org/img/cutecat.jpg',
       }
     }
+  },
+  statistics: {
+    viewCount: 1,
+    likeCount: 1,
+    dislikeCount: 1,
+    favoriteCount: 1,
+    commentCount: 1
   }
 }, {
   etag: 'SmEuSYxg',
