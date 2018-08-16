@@ -1,18 +1,17 @@
 var searchYouTube = (options, callback) => {
-  let key, q, maxResults;
-  [key, q, maxResults] = [options.key, options.query, options.max];
-  let url = `https://www.googleapis.com/youtube/v3/search?key=${key}&q=${q}&maxResults=${maxResults}`;
-  console.log(key, q, maxResults);
-  // TODO
+  let maxResults, part, q, type, key;
+  [maxResults, part, q, type, key] = [options.max, 'snippet', options.query, 'video', options.key];
+  let newOptions = { maxResults: maxResults, part: part, q: q, type: type, key: key };
   $.ajax({
     method: "GET",
-    url: "https://www.googleapis.com/youtube/v3/search",
-    data: options
+    url: "https://www.googleapis.com/youtube/v3/search?",
+    data: newOptions
   })
-    .done(function( msg ) {
-      console.log( "Data Saved: ", msg );
-    }).fail(function(msg) {
-      console.log( "error", msg );
+    .done(function (videos) {
+      callback(videos.items);
+    })
+    .fail(function (videos) {
+      console.log("error", videos);
     });
 };
 

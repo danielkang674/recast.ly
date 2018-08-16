@@ -1,21 +1,50 @@
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      videoList: this.props.fakedata,
-      currentVideo: this.props.fakedata[0]
-    };
+    this.state = {videoList: window.fakeVideoData, currentVideo: window.fakeVideoData[0], userInput: ''};
     this.clicker = this.clicker.bind(this);
+    this.submit = this.submit.bind(this);
+    this.handleUserInput = this.handleUserInput.bind(this);
+    this.dSearch = _.debounce(this.props.searchYouTube, 500);
   }
+
+  componentDidMount(){
+    let options = {max: 5, query: 'Dawgs', key: this.props.APIkey};
+    let ourCB = (videos)=>{
+      return this.setState({videoList: videos, currentVideo: videos[0]});
+    };
+    this.props.searchYouTube(options, ourCB);
+  }
+
+
+
   clicker(clickedVideo) {
     this.setState({currentVideo: clickedVideo});
   }
+
+  handleUserInput(text){
+    this.setState({userInput: text });
+    let options = {max: 5, query: text, key: this.props.APIkey};
+    let ourCB = (videos)=>{
+      return this.setState({videoList: videos, currentVideo: videos[0]});
+    };
+    this.dSearch(options, ourCB);
+  }
+  
+  submit(userInput) {
+    let options = {max: 5, query: userInput, key: this.props.APIkey};
+    let ourCB = (videos)=>{
+      return this.setState({videoList: videos, currentVideo: videos[0]});
+    };
+    this.props.searchYouTube(options, ourCB);
+  }
+
   render() {
     return (
       <div>
         <nav className="navbar">
           <div className="col-md-6 offset-md-3">
-            <div><h5><em>search</em> view goes here</h5></div>
+            <Search submit={this.submit} userInput={this.handleUserInput}/>
           </div>
         </nav>
         <div className="row">
